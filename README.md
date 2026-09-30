@@ -24,8 +24,10 @@
 
 ```mermaid
 flowchart LR
-    Stream(["📺 Incoming Video / Image DOM"]) --> Shield["🔒 Step 1: Instant Blur-First Shield\n(Zero-Leak Frame Guard)"]
-    Shield --> Scanner["🧠 Step 2: Real-Time AI Vision Scanner\n(Face & Gender Classification)"]
+    Stream(["📺 Incoming Video / Image DOM"]) --> Shield["🔒 Step 1: Instant Blur-First Shield
+(Zero-Leak Frame Guard)"]
+    Shield --> Scanner["🧠 Step 2: Real-Time AI Vision Scanner
+(Face & Gender Classification)"]
     Scanner -->|Safe Content Verified| Clear["✅ Selective Unblur & Render"]
     Scanner -->|Restricted Frame Detected| KeepBlur["🛡️ Maintain Gaussian Blur Mask"]
 ```
