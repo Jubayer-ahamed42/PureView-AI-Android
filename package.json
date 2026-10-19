@@ -1,0 +1,41 @@
+{
+  "name": "pureview-ai-android",
+  "version": "1.0.0",
+  "description": "PureView AI - 100% Android-Focused Islamic AI App with Zero-Leak Blur-First & Real Female-Face AI for Halal YouTube & Facebook",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node tests/verify-pureview.js",
+    "build:web": "node scripts/build-web.js",
+    "cap:sync": "npx cap sync android",
+    "build:apk": "powershell -ExecutionPolicy Bypass -File ./build-apk.ps1"
+  },
+  "keywords": [
+    "android",
+    "islamic-ai",
+    "pureview",
+    "blur-first",
+    "female-face-detection",
+    "halal-youtube",
+    "halal-facebook",
+    "capacitor"
+  ],
+  "author": "PureView AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
+    "@vladmandic/face-api": "^1.7.15",
+    "@vladmandic/human": "^3.3.6",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

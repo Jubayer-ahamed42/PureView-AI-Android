@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PureView AI</string>
+    <string name="title_activity_main">PureView AI — Halal YouTube &amp; Facebook</string>
+    <string name="package_name">com.pureview.ai</string>
+    <string name="custom_url_scheme">com.pureview.ai</string>
+</resources>

@@ -1,0 +1,24 @@
+# Binaries & Executables
+*.exe
+cloudflared.exe
+
+# Node & Dependencies
+node_modules/
+package-lock.json
+
+# Android Build & Gradle
+.gradle/
+build/
+*/build/
+app/build/
+*.apk
+*.aab
+local.properties
+.idea/
+*.iml
+
+# OS & Environment
+.env
+.env.local
+.DS_Store
+Thumbs.db

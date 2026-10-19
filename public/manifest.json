@@ -1,0 +1,25 @@
+{
+  "name": "PureView AI — Halal YouTube & Facebook",
+  "short_name": "PureView AI",
+  "description": "100% Android-Focused Islamic AI App with Zero-Leak Blur-First & Real Female-Face AI for YouTube & Facebook.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05110e",
+  "theme_color": "#061813",
+  "categories": ["lifestyle", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/pureview-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/pureview-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

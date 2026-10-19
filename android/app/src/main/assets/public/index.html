@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#061813" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>PureView AI — Halal YouTube &amp; Facebook (Android)</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./icons/pureview-icon-192.svg" />
+  <!-- 0ms Zero-Leak Blur-First Stylesheet loaded synchronously in <head> before any <img> exists -->
+  <link rel="stylesheet" href="./css/pureview-mobile.css" />
+</head>
+<body class="pv-shield-active" data-pv-blur-mode="full">
+  <div class="pv-app-shell">
+
+    <!-- ==================== TOP ANDROID APP HEADER ==================== -->
+    <header class="pv-top-header">
+      <div class="pv-brand">
+        <div class="pv-logo-badge">🛡️</div>
+        <div class="pv-brand-text">
+          <h1>
+            PureView AI
+            <span class="pv-islamic-badge">ANDROID</span>
+          </h1>
+          <p>Zero-Leak Blur-First • Female-Face AI</p>
+        </div>
+      </div>
+
+      <div class="pv-header-right">
+        <div class="pv-live-pill" id="pv-header-shield-pill" title="Toggle PureView AI Shield">
+          <span class="pv-live-dot"></span>
+          <span id="pv-header-shield-text">Shield: ON</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== QUICK STATS & LIVE DEMO STRIP ==================== -->
+    <div class="pv-stats-strip">
+      <div class="pv-stat-chip">
+        <span>🛡️ Blurred Today:</span>
+        <strong id="pv-strip-blurred-count">0</strong>
+      </div>
+      <div class="pv-stat-chip">
+        <span>✅ Safe Clear:</span>
+        <strong id="pv-strip-safe-count">0</strong>
+      </div>
+      <button class="pv-demo-btn" id="pv-open-test-lab-btn" type="button">
+        🧪 Live Test Feed
+      </button>
+    </div>
+
+    <!-- ==================== MAIN SCROLLABLE VIEWPORT ==================== -->
+    <main class="pv-viewport" id="pv-main-viewport">
+
+      <!-- ================================================================
+           ▶️ TAB 1: HALAL YOUTUBE (m.youtube.com with PureView AI)
+           ================================================================ -->
+      <section class="pv-tab-pane active" id="pv-tab-youtube" data-tab="youtube">
+        <!-- Sticky Mobile YouTube Bar -->
+        <div class="pv-subbar">
+          <div class="pv-subbar-top">
+            <div class="pv-url-pill">
+              <span>🔒</span>
+              <input type="text" id="pv-yt-search-input" value="https://m.youtube.com" aria-label="YouTube URL or Search" />
+            </div>
+            <button class="pv-filter-chip" id="pv-yt-live-proxy-btn" type="button">
+              🌐 Live m.youtube
+            </button>
+          </div>
+
+          <div class="pv-chip-row">
+            <button class="pv-filter-chip active" data-yt-filter="all" type="button">সব (All Feed)</button>
+            <button class="pv-filter-chip" data-yt-filter="islamic" type="button">🕌 কুরআন ও লেকচার</button>
+            <button class="pv-filter-chip" data-yt-filter="shorts" type="button">⚡ Shorts (AI Guard)</button>
+            <button class="pv-filter-chip" data-yt-filter="tech" type="button">💻 টেকনোলজি</button>
+          </div>
+        </div>
+
+        <!-- Active Video & Background Audio Player Dock -->
+        <div class="pv-yt-player-dock">
+          <div class="pv-yt-active-video" id="pv-yt-player-screen">
+            <div style="text-align:center; padding: 18px;">
+              <div style="font-size: 28px; margin-bottom: 6px;">🕌</div>
+              <div style="font-size: 14px; font-weight: 800; color: #34d399;" id="pv-now-playing-title">
+                Surah Ar-Rahman — Mishary Rashid Alafasy
+              </div>
+              <div style="font-size: 11.5px; color: #a7f3d0; margin-top: 4px;" id="pv-now-playing-status">
+                Halal YouTube Player • Ad-Blocker Active • Background Audio Ready
+              </div>
+              <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                <button class="pv-bg-audio-btn" id="pv-play-audio-btn" type="button">
+                  ▶️ Play Tilawat (Screen-Off Audio)
+                </button>
+                <button class="pv-bg-audio-btn" id="pv-simulate-ad-btn" type="button" style="border-color: #eab308; color: #fde047;">
+                  ⚡ Test Ad-Blocker Skip
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pv-yt-controls-bar">
+            <button class="pv-bg-audio-btn active" id="pv-bg-audio-toggle-btn" type="button">
+              🎧 Background Audio: ON
+            </button>
+            <div class="pv-adblock-badge" id="pv-yt-adblock-status">
+              🚫 Ad-Blocker: <span id="pv-ads-blocked-num">4</span> Ads Blocked
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Live Reverse-Proxy Iframe Container (Hidden by default) -->
+        <div class="pv-live-webview-container" id="pv-yt-proxy-container" style="display: none;">
+          <iframe id="pv-yt-proxy-iframe" title="Halal YouTube Live WebView"></iframe>
+        </div>
+
+        <!-- Halal YouTube Feed Container -->
+        <div id="pv-yt-feed-wrapper">
+          <!-- YouTube Shorts Shelf -->
+          <div class="pv-shorts-shelf">
+            <div class="pv-shelf-header">
+              <span>⚡ YouTube Shorts (Real-Time Female Face Blur)</span>
+              <span style="font-size: 11px; color: #a7f3d0;">0ms Blur-First</span>
+            </div>
+            <div class="pv-shorts-row" id="pv-yt-shorts-list"></div>
+          </div>
+
+          <!-- Main YouTube Video Feed -->
+          <div class="pv-feed-list" id="pv-yt-feed-list"></div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           📘 TAB 2: HALAL FACEBOOK (m.facebook.com with PureView AI)
+           ================================================================ -->
+      <section class="pv-tab-pane" id="pv-tab-facebook" data-tab="facebook">
+        <div class="pv-subbar">
+          <div class="pv-subbar-top">
+            <div class="pv-url-pill">
+              <span>🔒</span>
+              <input type="text" value="https://m.facebook.com" readonly aria-label="Facebook URL" />
+            </div>
+            <button class="pv-filter-chip" id="pv-fb-live-proxy-btn" type="button">
+              🌐 Live m.facebook
+            </button>
+          </div>
+        </div>
+
+        <!-- Optional Live Reverse-Proxy Iframe Container -->
+        <div class="pv-live-webview-container" id="pv-fb-proxy-container" style="display: none;">
+          <iframe id="pv-fb-proxy-iframe" title="Halal Facebook Live WebView"></iframe>
+        </div>
+
+        <div id="pv-fb-feed-wrapper">
+          <!-- Facebook Stories Tray -->
+          <div class="pv-fb-stories">
+            <div class="pv-shelf-header">
+              <span>📖 Stories &amp; Reels (AI Female-Face Guard)</span>
+              <span style="font-size: 11px; color: #a7f3d0;">scontent.fbcdn CORS Bypass</span>
+            </div>
+            <div class="pv-stories-scroll" id="pv-fb-stories-list"></div>
+          </div>
+
+          <!-- Facebook News Feed Posts & Sponsored Ads -->
+          <div class="pv-feed-list" id="pv-fb-feed-list"></div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           🛡️ TAB 3: PUREVIEW SHIELD SETTINGS & LIVE AI TEST LAB
+           ================================================================ -->
+      <section class="pv-tab-pane" id="pv-tab-settings" data-tab="settings">
+        <div class="pv-settings-wrap">
+
+          <!-- Live Counter Hero Card -->
+          <div class="pv-hero-counter-card">
+            <div class="pv-counter-num" id="pv-counter-female-blurred">0</div>
+            <div class="pv-counter-label">Total Female Faces Blurred Today</div>
+            <div class="pv-counter-sub">আজকে মেয়েদের চেহারা থেকে আপনার চোখ সুরক্ষিত রাখা হয়েছে</div>
+
+            <div class="pv-metrics-grid">
+              <div class="pv-metric-box">
+                <div class="val" id="pv-metric-safe-unblurred">0</div>
+                <div class="lbl">Safe Images Clear</div>
+              </div>
+              <div class="pv-metric-box">
+                <div class="val" id="pv-metric-ads-blocked">4</div>
+                <div class="lbl">YT Ads Blocked</div>
+              </div>
+              <div class="pv-metric-box">
+                <div class="val" id="pv-metric-scan-speed">32ms</div>
+                <div class="lbl">AI Scan Speed</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. Master Switch: PureView AI Shield ON / OFF -->
+          <div class="pv-setting-card">
+            <div class="pv-setting-row">
+              <div>
+                <div class="pv-setting-title">🛡️ PureView AI Shield (ON / OFF)</div>
+                <div class="pv-setting-desc">
+                  মাস্টার সুইচ: চালু থাকলে ০ মিলিসেকেন্ডে Blur-First এবং রিয়েল-টাইম Female Face AI সক্রিয় থাকবে।
+                </div>
+              </div>
+              <label class="pv-switch">
+                <input type="checkbox" id="pv-master-switch" checked />
+                <span class="pv-slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. Blur Mode: Full Image Blur vs Female Face-Only Blur -->
+          <div class="pv-setting-card">
+            <div class="pv-setting-title">🎯 Blur Mode (ব্লার মোড নির্বাচন)</div>
+            <div class="pv-setting-desc">
+              মেয়ের চেহারা শনাক্ত হলে পুরো ছবি ব্লার হবে নাকি শুধুমাত্র চেহারার অংশটুকু ব্লার হবে তা বেছে নিন:
+            </div>
+            <div class="pv-mode-options">
+              <button type="button" class="pv-mode-option selected" id="pv-mode-full" data-blur-mode="full">
+                <h5>🔒 Full Image Blur</h5>
+                <p>মেয়ের চেহারা পাওয়া গেলে পুরো থাম্বনেইল বা পোস্ট গাঢ় ব্লার করে লক করবে।</p>
+              </button>
+              <button type="button" class="pv-mode-option" id="pv-mode-face-only" data-blur-mode="face-only">
+                <h5>👤 Face-Only Blur</h5>
+                <p>শুধুমাত্র মেয়ের চেহারার বক্সটুকু ব্লার করবে, বাকি টেক্সট ও ব্যাকগ্রাউন্ড পরিষ্কার রাখবে।</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Blur Strength Slider -->
+          <div class="pv-setting-card">
+            <div class="pv-setting-row">
+              <div class="pv-setting-title">🌫️ Blur Strength (ব্লারের গাঢ়ত্ব)</div>
+              <strong style="color: var(--pv-emerald-bright); font-size: 14px;" id="pv-blur-strength-label">25px (Heavy)</strong>
+            </div>
+            <div class="pv-range-wrap">
+              <input type="range" class="pv-range-input" id="pv-blur-slider" min="10" max="45" step="1" value="25" />
+              <div class="pv-range-labels">
+                <span>10px (হালকা)</span>
+                <span>25px (ডিফল্ট গাঢ়)</span>
+                <span>45px (আল্ট্রা লক)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Halal YouTube Features Toggles -->
+          <div class="pv-setting-card">
+            <div class="pv-setting-row">
+              <div>
+                <div class="pv-setting-title">🚫 Built-in YouTube Ad-Blocker</div>
+                <div class="pv-setting-desc">ইউটিউবের ভিডিও বিজ্ঞাপন ও স্পন্সরড ব্যানার স্বয়ংক্রিয়ভাবে ব্লক ও স্কিপ করবে।</div>
+              </div>
+              <label class="pv-switch">
+                <input type="checkbox" id="pv-adblock-switch" checked />
+                <span class="pv-slider-toggle"></span>
+              </label>
+            </div>
+
+            <div class="pv-setting-row" style="margin-top: 6px; padding-top: 10px; border-top: 1px solid rgba(16,185,129,0.15);">
+              <div>
+                <div class="pv-setting-title">🎧 Background Audio Play</div>
+                <div class="pv-setting-desc">ফোনের স্ক্রিন বন্ধ রেখেও কুরআন তেলাওয়াত, গজল ও ইসলামিক লেকচার শোনার সুবিধা।</div>
+              </div>
+              <label class="pv-switch">
+                <input type="checkbox" id="pv-bgaudio-switch" checked />
+                <span class="pv-slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5. LIVE DEMO TEST FEED (Real AI Verification Lab) -->
+          <div class="pv-setting-card" id="pv-live-test-lab-section">
+            <div class="pv-setting-row">
+              <div>
+                <div class="pv-setting-title">🧪 Live Demo Test Feed (AI যাচাই ল্যাব)</div>
+                <div class="pv-setting-desc">
+                  নিচের রিয়েল ছবিগুলোতে আমাদের AI ইঞ্জিন পুরুষ ও প্রাকৃতিক দৃশ্য ১০০% পরিষ্কার রাখছে এবং মেয়েদের চেহারা ১০০% ব্লার করছে:
+                </div>
+              </div>
+              <button class="pv-demo-btn" id="pv-rescan-test-lab-btn" type="button">
+                🔄 Re-Scan AI
+              </button>
+            </div>
+
+            <div class="pv-test-grid" id="pv-test-lab-grid"></div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================== FLOATING BACKGROUND AUDIO MINI-BAR ==================== -->
+    <div class="pv-bg-audio-toast" id="pv-bg-audio-toast">
+      <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
+        <span>🕌</span>
+        <div>
+          <div style="font-weight:700; color:#fff;">Screen-Off Background Audio Active</div>
+          <div style="font-size:10.5px; color:#a7f3d0;">Surah Ar-Rahman • Playing in Background</div>
+        </div>
+      </div>
+      <button class="pv-demo-btn" id="pv-stop-bg-audio-btn" type="button">⏸️ Pause</button>
+    </div>
+
+    <!-- ==================== BOTTOM NAVIGATION BAR (3 CORE TABS) ==================== -->
+    <nav class="pv-bottom-nav" aria-label="PureView Primary Navigation">
+      <button type="button" class="pv-nav-item active" data-nav-target="youtube" id="pv-nav-youtube">
+        <span class="nav-icon">▶️</span>
+        <span class="nav-label">Halal YouTube</span>
+      </button>
+
+      <button type="button" class="pv-nav-item" data-nav-target="facebook" id="pv-nav-facebook">
+        <span class="nav-icon">📘</span>
+        <span class="nav-label">Halal Facebook</span>
+      </button>
+
+      <button type="button" class="pv-nav-item" data-nav-target="settings" id="pv-nav-settings">
+        <span class="nav-icon">🛡️</span>
+        <span class="nav-label">PureView Shield</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Pre-trained Face & Gender AI Library + PureView Core Engine + App Controller -->
+  <script src="./vendor/face-api.js"></script>
+  <script src="./js/pureview-ai-engine.js"></script>
+  <script src="./js/pureview-app.js"></script>
+</body>
+</html>

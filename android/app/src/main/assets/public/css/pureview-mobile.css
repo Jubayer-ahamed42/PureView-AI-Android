@@ -1,0 +1,1129 @@
+/* ==========================================================================
+   PureView AI - 100% Android-Focused Islamic AI Mobile App Stylesheet
+   Theme: Premium Dark & Emerald Islamic (#061411, #0b241e, #10b981, #d4af37)
+   Core Feature: 0ms Zero-Leak Blur-First CSS Engine
+   ========================================================================== */
+
+:root {
+  --pv-bg-deep: #05110e;
+  --pv-bg-primary: #091d18;
+  --pv-bg-card: #0f2922;
+  --pv-bg-card-hover: #15352c;
+  --pv-bg-elevated: #183d33;
+  --pv-emerald-primary: #10b981;
+  --pv-emerald-bright: #34d399;
+  --pv-emerald-glow: rgba(16, 185, 129, 0.25);
+  --pv-gold: #eab308;
+  --pv-gold-soft: rgba(234, 179, 8, 0.16);
+  --pv-danger: #ef4444;
+  --pv-danger-soft: rgba(239, 68, 68, 0.2);
+  --pv-text-primary: #f0fdf4;
+  --pv-text-secondary: #a7f3d0;
+  --pv-text-muted: #6ee7b7;
+  --pv-border: rgba(16, 185, 129, 0.22);
+  --pv-blur-strength: 25px;
+  --pv-safe-top: env(safe-area-inset-top, 0px);
+  --pv-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--pv-bg-deep);
+  color: var(--pv-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Bengali', sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. ZERO-LEAK BLUR-FIRST ENGINE (0ms Eye Protection)
+   Every image/thumbnail/reel is blurred by CSS BEFORE JavaScript or AI runs.
+   ========================================================================== */
+
+body.pv-shield-active img:not([data-pv-status="safe"]):not([data-pv-status="blurred-face-only"]):not([data-pv-status="blurred-female"]):not(.pv-ui-icon),
+body.pv-shield-active [data-pv-bg]:not([data-pv-status="safe"]):not([data-pv-status="blurred-face-only"]):not([data-pv-status="blurred-female"]),
+body.pv-shield-active [style*="background-image"]:not([data-pv-status="safe"]):not([data-pv-status="blurred-face-only"]):not([data-pv-status="blurred-female"]):not(.pv-ui-icon),
+body.pv-shield-active video.pv-guard-video:not([data-pv-status="safe"]) {
+  filter: blur(var(--pv-blur-strength, 25px)) brightness(0.82) !important;
+  transform: scale(1.06);
+  transition: none !important;
+  will-change: filter, transform;
+}
+
+/* Permanently locked heavy blur when AI detects a Female Face */
+body.pv-shield-active img[data-pv-status="blurred-female"],
+body.pv-shield-active [data-pv-bg][data-pv-status="blurred-female"],
+body.pv-shield-active [style*="background-image"][data-pv-status="blurred-female"] {
+  filter: blur(var(--pv-blur-strength, 25px)) brightness(0.72) contrast(0.95) !important;
+  transform: scale(1.08);
+  transition: none !important;
+  pointer-events: none;
+}
+
+/* 100% Crystal Clear when AI verifies NO Female Face (Male only, Nature, Tech, Text) */
+body.pv-shield-active img[data-pv-status="safe"],
+body.pv-shield-active [data-pv-bg][data-pv-status="safe"],
+body.pv-shield-active [style*="background-image"][data-pv-status="safe"],
+body.pv-shield-active img[data-pv-status="blurred-face-only"],
+body.pv-shield-active [style*="background-image"][data-pv-status="blurred-face-only"] {
+  filter: blur(0px) brightness(1) !important;
+  transform: scale(1);
+  transition: filter 0.25s ease-out, transform 0.25s ease-out;
+}
+
+/* When Shield is turned OFF globally */
+body:not(.pv-shield-active) img,
+body:not(.pv-shield-active) [data-pv-bg],
+body:not(.pv-shield-active) [style*="background-image"] {
+  filter: none !important;
+  transform: none !important;
+}
+
+body:not(.pv-shield-active) .pv-face-blur-box,
+body:not(.pv-shield-active) .pv-status-pill,
+body:not(.pv-shield-active) .pv-blur-watermark {
+  display: none !important;
+}
+
+/* Face-Only Blur Overlay Box (for Blur Mode: Face-Only) */
+.pv-media-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  background: #071713;
+}
+
+.pv-face-blur-box {
+  position: absolute;
+  z-index: 15;
+  border-radius: 50%;
+  backdrop-filter: blur(var(--pv-blur-strength, 25px)) brightness(0.75);
+  -webkit-backdrop-filter: blur(var(--pv-blur-strength, 25px)) brightness(0.75);
+  background: rgba(6, 20, 17, 0.55);
+  border: 1.5px solid rgba(239, 68, 68, 0.55);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.pv-face-blur-box::after {
+  content: '🛡️';
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Real-time AI Status Badge on Media */
+.pv-status-pill {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 20;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.pv-status-pill.scanning {
+  background: rgba(234, 179, 8, 0.88);
+  color: #05110e;
+}
+
+.pv-status-pill.blurred {
+  background: rgba(220, 38, 38, 0.92);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.pv-status-pill.safe {
+  background: rgba(16, 185, 129, 0.9);
+  color: #04130f;
+}
+
+/* Center Shield Watermark on Full Blurred Female Images */
+.pv-blur-watermark {
+  position: absolute;
+  inset: 0;
+  z-index: 16;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(5, 17, 14, 0.45) 0%, rgba(5, 17, 14, 0.15) 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 12px;
+  pointer-events: none;
+}
+
+.pv-blur-watermark .pv-wm-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 6px;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+}
+
+.pv-blur-watermark .pv-wm-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fecaca;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.pv-blur-watermark .pv-wm-sub {
+  font-size: 10px;
+  color: #e2e8f0;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Allow temporary peek/unblur button only if user explicitly taps info */
+.pv-app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--pv-bg-primary);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 521px) {
+  body {
+    background: radial-gradient(circle at top, #0c2922 0%, #030a08 100%);
+  }
+  .pv-app-shell {
+    border-left: 1px solid var(--pv-border);
+    border-right: 1px solid var(--pv-border);
+  }
+}
+
+/* ==========================================================================
+   2. ANDROID TOP STATUS & APP HEADER BAR
+   ========================================================================== */
+
+.pv-top-header {
+  background: linear-gradient(180deg, #061813 0%, #0a221c 100%);
+  border-bottom: 1px solid var(--pv-border);
+  padding: calc(10px + var(--pv-safe-top)) 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 40;
+  flex-shrink: 0;
+}
+
+.pv-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pv-logo-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  box-shadow: 0 3px 12px var(--pv-emerald-glow);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pv-brand-text h1 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+}
+
+.pv-islamic-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--pv-gold-soft);
+  color: var(--pv-gold);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  font-weight: 700;
+}
+
+.pv-brand-text p {
+  font-size: 11px;
+  color: var(--pv-text-secondary);
+  opacity: 0.9;
+}
+
+.pv-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pv-live-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid var(--pv-border);
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pv-emerald-bright);
+  cursor: pointer;
+}
+
+.pv-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pv-emerald-bright);
+  box-shadow: 0 0 8px var(--pv-emerald-bright);
+  animation: pvPulse 1.8s infinite;
+}
+
+body:not(.pv-shield-active) .pv-live-dot {
+  background: var(--pv-danger);
+  box-shadow: 0 0 8px var(--pv-danger);
+  animation: none;
+}
+
+@keyframes pvPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.65; }
+}
+
+/* Quick Stats Strip below Header */
+.pv-stats-strip {
+  background: #071914;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.pv-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--pv-text-secondary);
+}
+
+.pv-stat-chip strong {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.pv-demo-btn {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+  color: #05110e;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   3. MAIN SCROLLABLE VIEWPORT & TABS
+   ========================================================================== */
+
+.pv-viewport {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+  padding-bottom: 84px;
+}
+
+.pv-viewport::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pv-viewport::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+  border-radius: 4px;
+}
+
+.pv-tab-pane {
+  display: none;
+  min-height: 100%;
+}
+
+.pv-tab-pane.active {
+  display: block;
+}
+
+/* Mode Switcher Bar inside YouTube / Facebook Tabs (Feed Mode vs Real m.youtube/m.facebook WebView Proxy) */
+.pv-subbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(9, 29, 24, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--pv-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pv-subbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pv-url-pill {
+  flex: 1;
+  background: #05120f;
+  border: 1px solid var(--pv-border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--pv-text-secondary);
+}
+
+.pv-url-pill input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 12px;
+  width: 100%;
+}
+
+.pv-chip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.pv-chip-row::-webkit-scrollbar {
+  display: none;
+}
+
+.pv-filter-chip {
+  background: var(--pv-bg-card);
+  color: var(--pv-text-secondary);
+  border: 1px solid var(--pv-border);
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pv-filter-chip.active {
+  background: var(--pv-emerald-primary);
+  color: #04130f;
+  border-color: var(--pv-emerald-bright);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   4. TAB 1: HALAL YOUTUBE (m.youtube.com + AdBlocker + Background Audio)
+   ========================================================================== */
+
+.pv-yt-player-dock {
+  background: #000000;
+  border-bottom: 1px solid var(--pv-border);
+  position: relative;
+}
+
+.pv-yt-active-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #030b09;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pv-yt-controls-bar {
+  background: linear-gradient(90deg, #0b241e 0%, #11332a 100%);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.pv-bg-audio-btn {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid var(--pv-emerald-primary);
+  color: var(--pv-emerald-bright);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pv-bg-audio-btn.active {
+  background: var(--pv-emerald-primary);
+  color: #04130f;
+}
+
+.pv-adblock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--pv-gold);
+  background: var(--pv-gold-soft);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* YouTube Video Feed Cards */
+.pv-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+}
+
+.pv-yt-card {
+  background: var(--pv-bg-card);
+  border: 1px solid var(--pv-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.pv-yt-thumb-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  background: #061511;
+}
+
+.pv-yt-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pv-yt-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 18;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pv-yt-meta {
+  padding: 11px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.pv-avatar-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  border: 1.5px solid var(--pv-border);
+}
+
+.pv-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pv-yt-info {
+  flex: 1;
+}
+
+.pv-yt-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.pv-yt-sub {
+  font-size: 11.5px;
+  color: var(--pv-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* YouTube Shorts Shelf */
+.pv-shorts-shelf {
+  padding: 4px 12px 10px;
+}
+
+.pv-shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--pv-emerald-bright);
+}
+
+.pv-shorts-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.pv-short-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--pv-border);
+  background: var(--pv-bg-card);
+  position: relative;
+  aspect-ratio: 9 / 14;
+}
+
+.pv-short-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pv-short-caption {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  z-index: 18;
+  padding: 20px 8px 8px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   5. TAB 2: HALAL FACEBOOK (m.facebook.com Stories, Reels, Feed, Sponsored Ads)
+   ========================================================================== */
+
+.pv-fb-stories {
+  padding: 12px;
+  border-bottom: 1px solid var(--pv-border);
+  background: #071914;
+}
+
+.pv-stories-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.pv-story-card {
+  width: 102px;
+  height: 164px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  border: 1.5px solid var(--pv-border);
+  background: var(--pv-bg-card);
+}
+
+.pv-story-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pv-story-label {
+  position: absolute;
+  bottom: 6px;
+  inset-inline: 6px;
+  z-index: 18;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}
+
+.pv-fb-post {
+  background: var(--pv-bg-card);
+  border: 1px solid var(--pv-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.pv-fb-post-header {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pv-fb-author h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pv-fb-author span {
+  font-size: 11px;
+  color: var(--pv-text-secondary);
+}
+
+.pv-fb-post-text {
+  padding: 0 12px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--pv-text-primary);
+}
+
+.pv-fb-post-media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+  background: #05130f;
+}
+
+.pv-fb-post-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pv-fb-actions {
+  padding: 9px 12px;
+  border-top: 1px solid rgba(16, 185, 129, 0.14);
+  display: flex;
+  justify-content: space-around;
+  font-size: 12px;
+  color: var(--pv-text-secondary);
+  font-weight: 600;
+}
+
+/* Live External Proxy Iframe Wrapper */
+.pv-live-webview-container {
+  width: 100%;
+  height: calc(100vh - 190px);
+  background: #05110e;
+  position: relative;
+}
+
+.pv-live-webview-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ==========================================================================
+   6. TAB 3: PUREVIEW SHIELD SETTINGS (Mobile Control Panel)
+   ========================================================================== */
+
+.pv-settings-wrap {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pv-hero-counter-card {
+  background: linear-gradient(135deg, #0d3328 0%, #071c16 100%);
+  border: 1.5px solid var(--pv-emerald-primary);
+  border-radius: 18px;
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.pv-counter-num {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--pv-emerald-bright);
+  line-height: 1.1;
+  text-shadow: 0 0 20px var(--pv-emerald-glow);
+}
+
+.pv-counter-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.pv-counter-sub {
+  font-size: 11.5px;
+  color: var(--pv-text-secondary);
+  margin-top: 4px;
+}
+
+.pv-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.pv-metric-box {
+  background: rgba(5, 17, 14, 0.6);
+  border: 1px solid var(--pv-border);
+  border-radius: 10px;
+  padding: 8px 6px;
+}
+
+.pv-metric-box .val {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--pv-gold);
+}
+
+.pv-metric-box .lbl {
+  font-size: 10px;
+  color: var(--pv-text-secondary);
+  margin-top: 2px;
+}
+
+.pv-setting-card {
+  background: var(--pv-bg-card);
+  border: 1px solid var(--pv-border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pv-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pv-setting-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pv-setting-desc {
+  font-size: 11.5px;
+  color: var(--pv-text-secondary);
+  line-height: 1.4;
+}
+
+/* Touch Toggle Switch */
+.pv-switch {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.pv-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.pv-slider-toggle {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #1f2937;
+  transition: 0.25s;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pv-slider-toggle:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.25s;
+  border-radius: 50%;
+}
+
+.pv-switch input:checked + .pv-slider-toggle {
+  background-color: var(--pv-emerald-primary);
+  box-shadow: 0 0 12px var(--pv-emerald-glow);
+}
+
+.pv-switch input:checked + .pv-slider-toggle:before {
+  transform: translateX(24px);
+}
+
+/* Radio Option Cards for Blur Mode */
+.pv-mode-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pv-mode-option {
+  background: #071914;
+  border: 1.5px solid var(--pv-border);
+  border-radius: 12px;
+  padding: 11px 10px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--pv-text-primary);
+  transition: all 0.2s;
+}
+
+.pv-mode-option.selected {
+  border-color: var(--pv-emerald-bright);
+  background: rgba(16, 185, 129, 0.16);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.2);
+}
+
+.pv-mode-option h5 {
+  font-size: 12.5px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+.pv-mode-option p {
+  font-size: 11px;
+  color: var(--pv-text-secondary);
+  line-height: 1.35;
+}
+
+/* Range Slider for Blur Strength */
+.pv-range-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pv-range-input {
+  width: 100%;
+  accent-color: var(--pv-emerald-primary);
+  height: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pv-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--pv-text-secondary);
+}
+
+/* ==========================================================================
+   7. LIVE AI DEMO TEST FEED MODAL / SECTION
+   ========================================================================== */
+
+.pv-test-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.pv-test-card {
+  background: #071914;
+  border: 1px solid var(--pv-border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pv-test-img-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  background: #04100d;
+}
+
+.pv-test-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pv-test-card-body {
+  padding: 8px 10px;
+  font-size: 11.5px;
+}
+
+.pv-test-card-body h5 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 3px;
+}
+
+.pv-test-verdict {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.pv-test-verdict.verdict-female {
+  color: #f87171;
+}
+
+.pv-test-verdict.verdict-safe {
+  color: var(--pv-emerald-bright);
+}
+
+/* ==========================================================================
+   8. BOTTOM NAVIGATION BAR (3 Core Android Super-App Tabs)
+   ========================================================================== */
+
+.pv-bottom-nav {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  height: calc(66px + var(--pv-safe-bottom));
+  padding-bottom: var(--pv-safe-bottom);
+  background: rgba(6, 20, 17, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--pv-border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  z-index: 50;
+}
+
+.pv-nav-item {
+  background: transparent;
+  border: none;
+  color: var(--pv-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.pv-nav-item .nav-icon {
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px 16px;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.pv-nav-item .nav-label {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.pv-nav-item.active {
+  color: #ffffff;
+}
+
+.pv-nav-item.active .nav-icon {
+  background: rgba(16, 185, 129, 0.24);
+  color: var(--pv-emerald-bright);
+  box-shadow: 0 0 12px var(--pv-emerald-glow);
+}
+
+/* Background Audio Floating Mini-Bar */
+.pv-bg-audio-toast {
+  position: absolute;
+  bottom: calc(72px + var(--pv-safe-bottom));
+  inset-inline: 12px;
+  background: linear-gradient(90deg, #064e3b 0%, #0f2922 100%);
+  border: 1px solid var(--pv-emerald-bright);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 45;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.pv-bg-audio-toast.show {
+  display: flex;
+}
